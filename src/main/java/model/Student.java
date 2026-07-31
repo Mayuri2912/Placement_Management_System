@@ -11,6 +11,7 @@ public class Student {
     private String course;
     private double cgpa;
     private String skills;
+    private String resumeLink;
 
     public int getStudentId() {
         return studentId;
@@ -82,5 +83,13 @@ public class Student {
 
     public void setSkills(String skills) {
         this.skills = skills;
+    }
+
+    public String getResumeLink() {
+        return resumeLink;
+    }
+
+    public void setResumeLink(String resumeLink) {
+        this.resumeLink = resumeLink;
     }
 }

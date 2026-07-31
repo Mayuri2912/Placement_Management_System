@@ -183,6 +183,7 @@ public class UserDAO {
                 student.setCourse(rs.getString("course"));
                 student.setCgpa(rs.getDouble("cgpa"));
                 student.setSkills(rs.getString("skills"));
+                student.setResumeLink(rs.getString("resume_link"));
             }
 
             con.close();
@@ -223,6 +224,7 @@ public class UserDAO {
                 student.setCourse(rs.getString("course"));
                 student.setCgpa(rs.getDouble("cgpa"));
                 student.setSkills(rs.getString("skills"));
+                student.setResumeLink(rs.getString("resume_link"));
 
                 studentList.add(student);
             }
@@ -1052,6 +1054,62 @@ public java.util.List<String[]> getRecommendedJobs(int studentId) {
  return list;
 }
 
+//================= UPDATE STUDENT RESUME LINK =================
+public boolean updateResumeLink(int studentId, String resumeLink) {
+
+ boolean status = false;
+
+ try {
+     Class.forName("com.mysql.cj.jdbc.Driver");
+     Connection con = DriverManager.getConnection(url, username, password);
+
+     PreparedStatement ps = con.prepareStatement(
+         "UPDATE students SET resume_link=? WHERE student_id=?"
+     );
+
+     ps.setString(1, resumeLink);
+     ps.setInt(2, studentId);
+
+     int rows = ps.executeUpdate();
+     status = (rows > 0);
+
+     con.close();
+
+ } catch (Exception e) {
+     e.printStackTrace();
+ }
+
+ return status;
+}
+
+//================= GET RESUME LINK BY STUDENT ID =================
+public String getResumeLinkByStudentId(int studentId) {
+
+ String resumeLink = null;
+
+ try {
+     Class.forName("com.mysql.cj.jdbc.Driver");
+     Connection con = DriverManager.getConnection(url, username, password);
+
+     PreparedStatement ps = con.prepareStatement(
+         "SELECT resume_link FROM students WHERE student_id=?"
+     );
+
+     ps.setInt(1, studentId);
+     ResultSet rs = ps.executeQuery();
+
+     if (rs.next()) {
+         resumeLink = rs.getString("resume_link");
+     }
+
+     con.close();
+
+ } catch (Exception e) {
+     e.printStackTrace();
+ }
+
+ return resumeLink;
+}
 
 }
 

@@ -143,11 +143,11 @@ body {
         <i class="fa fa-briefcase mr-2"></i> Jobs
     </a>
 
-    <a href="view-applications.jsp">
+    <a href="manage-applications.jsp">
         <i class="fa fa-file-alt mr-2"></i> Applications
     </a>
 
-    <a href="admin-logout.jsp" style="color:#ef4444;">
+    <a href="AdminLogoutServlet" style="color:#ef4444;">
         <i class="fa fa-sign-out-alt mr-2"></i> Logout
     </a>
 </div>

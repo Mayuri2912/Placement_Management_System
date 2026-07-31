@@ -1,6 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.util.*, dao.UserDAO" %>
 
+<%--
+    LEGACY / UNUSED PAGE - left in place, not deleted, per project rules.
+
+    This page is not linked from anywhere in the application (its own
+    sidebar link points back to itself). It appears to predate
+    StudentApplicationsServlet + student-applications.jsp, which is the
+    actively-used equivalent (reachable from every student page's sidebar
+    and consistent with the rest of the student navigation).
+
+    This page's own "Logout" link below points to "StudentLogoutServlet",
+    which does not exist (the real mapping is "/studentLogout" - see
+    StudentLogoutServlet.java). Since this page is unreachable through any
+    UI navigation, that broken link was left as-is rather than fixed, to
+    avoid making changes to code that verification showed is not in use.
+--%>
+
 <%
 String studentEmail = (String) session.getAttribute("student");
 if (studentEmail == null) {

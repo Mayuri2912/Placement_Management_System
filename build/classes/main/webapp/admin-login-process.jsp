@@ -1,5 +1,15 @@
 <%@ page import="java.sql.*" %>
 
+<%--
+    LEGACY / UNUSED PAGE - left in place, not deleted, per project rules.
+
+    This page is a raw-JDBC duplicate of the admin login logic that now
+    lives properly in LoginHandler.java + UserDAO.validateUser(). The
+    current admin-login.jsp form posts to "<contextPath>/LoginHandler",
+    NOT to this file, and nothing else in the application references
+    "admin-login-process.jsp" either. Left untouched and unused.
+--%>
+
 <%
 String email = request.getParameter("email");
 String password = request.getParameter("password");

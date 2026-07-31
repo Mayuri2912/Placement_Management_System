@@ -8,6 +8,29 @@ if (student == null) {
     response.sendRedirect("studentDashboard");
     return;
 }
+
+String resumeMsg = request.getParameter("resumeMsg");
+String resumeReason = request.getParameter("reason");
+String resumeAlertClass = "success".equals(resumeMsg) ? "alert-success" : "alert-danger";
+String resumeAlertText = "";
+
+if ("success".equals(resumeMsg)) {
+    resumeAlertText = "Resume uploaded successfully.";
+} else if ("error".equals(resumeMsg)) {
+    if ("type".equals(resumeReason)) {
+        resumeAlertText = "Only PDF files are allowed.";
+    } else if ("size".equals(resumeReason)) {
+        resumeAlertText = "File is too large. Maximum allowed size is 5 MB.";
+    } else if ("empty".equals(resumeReason)) {
+        resumeAlertText = "Please choose a PDF file before uploading.";
+    } else if ("db".equals(resumeReason)) {
+        resumeAlertText = "Upload succeeded but saving to your profile failed. Please try again.";
+    } else if ("io".equals(resumeReason)) {
+        resumeAlertText = "Could not save the file on the server. Please try again.";
+    } else {
+        resumeAlertText = "Something went wrong while uploading your resume. Please try again.";
+    }
+}
 %>
 
 <!DOCTYPE html>
@@ -98,6 +121,15 @@ body{
 
     <div class="profile-card">
 
+        <% if (resumeMsg != null && !resumeAlertText.isEmpty()) { %>
+        <div class="alert <%= resumeAlertClass %> alert-dismissible fade show" role="alert">
+            <%= resumeAlertText %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <% } %>
+
         <div class="profile-header">
             <i class="fa fa-user-circle profile-icon"></i>
             <h3 class="mt-3"><%= student.getFullName() %></h3>
@@ -136,6 +168,43 @@ body{
                 <p><%= student.getSkills() %></p>
             </div>
 
+            <div class="col-md-6">
+                <h5><i class="fa fa-file-pdf mr-2"></i> Resume</h5>
+                <% if (student.getResumeLink() != null && !student.getResumeLink().trim().isEmpty()) { %>
+                    <p>
+                        <span class="badge badge-success mr-2">Uploaded</span>
+                        <%= student.getResumeLink() %>
+                        <br>
+                        <a href="downloadResume?id=<%= student.getStudentId() %>"
+                           target="_blank" class="btn btn-outline-primary btn-sm mt-2">
+                            <i class="fa fa-eye mr-1"></i> View Resume
+                        </a>
+                    </p>
+                <% } else { %>
+                    <p><span class="badge badge-secondary">Not uploaded</span></p>
+                <% } %>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-8">
+                <h5>
+                    <i class="fa fa-upload mr-2"></i>
+                    <%= (student.getResumeLink() != null && !student.getResumeLink().trim().isEmpty())
+                            ? "Replace Resume" : "Upload Resume" %>
+                </h5>
+
+                <form action="uploadResume" method="post" enctype="multipart/form-data" class="form-inline">
+                    <input type="file" name="resumeFile" accept="application/pdf" class="form-control mr-2 mb-2" required>
+                    <button type="submit" class="btn btn-primary mb-2">
+                        <i class="fa fa-upload mr-1"></i> Upload
+                    </button>
+                </form>
+                <small class="text-muted">PDF only, maximum size 5 MB.</small>
+            </div>
         </div>
 
     </div>

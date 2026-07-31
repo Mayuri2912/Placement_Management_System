@@ -10,6 +10,16 @@ public class UpdateApplicationStatusServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // BUG FIX: this admin-only action had no session check at all -
+        // anyone could change any application's status by POSTing here
+        // directly, logged in or not.
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("admin") == null) {
+            response.sendRedirect("admin-login.jsp");
+            return;
+        }
+
         int applicationId = Integer.parseInt(request.getParameter("applicationId"));
         String status = request.getParameter("status");
 

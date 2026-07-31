@@ -80,11 +80,11 @@ body { background:#f4f6f9; font-family:'Segoe UI'; }
         <i class="fa fa-briefcase mr-2"></i> Jobs
     </a>
 
-    <a href="view-applications.jsp">
+    <a href="manage-applications.jsp">
         <i class="fa fa-file-alt mr-2"></i> Applications
     </a>
 
-    <a href="admin-logout.jsp" style="color:#ef4444;">
+    <a href="AdminLogoutServlet" style="color:#ef4444;">
         <i class="fa fa-sign-out-alt mr-2"></i> Logout
     </a>
 </div>
@@ -107,6 +107,7 @@ body { background:#f4f6f9; font-family:'Segoe UI'; }
                     <th>Course</th>
                     <th>CGPA</th>
                     <th>Skills</th>
+                    <th>Resume</th>
                 </tr>
             </thead>
 
@@ -124,6 +125,16 @@ body { background:#f4f6f9; font-family:'Segoe UI'; }
                     <td><%= s.getCourse() %></td>
                     <td><%= s.getCgpa() %></td>
                     <td><%= s.getSkills() %></td>
+                    <td>
+                        <% if (s.getResumeLink() != null && !s.getResumeLink().trim().isEmpty()) { %>
+                            <a href="downloadResume?id=<%= s.getStudentId() %>"
+                               target="_blank" class="btn btn-success btn-sm">
+                                <i class="fa fa-file-pdf mr-1"></i> View
+                            </a>
+                        <% } else { %>
+                            <span class="badge badge-secondary">Not Uploaded</span>
+                        <% } %>
+                    </td>
                 </tr>
 
             <%

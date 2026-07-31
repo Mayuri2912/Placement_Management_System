@@ -10,6 +10,15 @@
         <welcome-file>admin-login.jsp</welcome-file>
     </welcome-file-list>
 
+    <!-- ================= SESSION TIMEOUT ================= -->
+    <!-- BUG FIX: no session-timeout was configured anywhere (defaulted to
+         the container's own default, commonly 30 minutes but not guaranteed).
+         Explicitly set to 15 minutes so an idle session (admin or student)
+         expires predictably. -->
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
+
 
     <!-- ================= ADD COMPANY ================= -->
     <servlet>
